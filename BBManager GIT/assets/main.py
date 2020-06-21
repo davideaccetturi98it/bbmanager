@@ -35,7 +35,7 @@ try:
                 if os.path.exists('bb_status.txt') == True:  # CHECK IF BB SERVER IS STARTING
                     print("BB server is starting")  # PRINT OK
             elif os.name == 'posix':
-                subprocess.Popen("python3"+" runserver.py"+ str(0) + " " +str(sys.argv[2])+ " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN BBSERVER IN BG WIN
+                subprocess.Popen("python3"+" runserver.py "+ str(0) + " " +str(sys.argv[2])+ " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN BBSERVER IN BG WIN
                 time.sleep(5)
                 if os.path.exists('bb_status.txt') == True: #CHECK IF BB SERVER IS STARTING
                     print("BB server is starting") #PRINT OK

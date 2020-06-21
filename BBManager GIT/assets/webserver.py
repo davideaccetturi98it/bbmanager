@@ -16,8 +16,10 @@ def stop_webserver():
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
         os.remove("httpd_pid.txt")
+        os.remove("httpd_status.txt")
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
+
 def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
 
     server = socketserver.ThreadingTCPServer((host, port), http.server.SimpleHTTPRequestHandler)
@@ -44,6 +46,7 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
     myPID()
     status = open("httpd_status.txt", "w")
     status.write(host + '\n' + str(port))
+    status.close()
     # entra nel loop infinito
     try:
         while True:

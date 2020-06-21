@@ -57,7 +57,7 @@ try:
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w")  # TRACE ERRORS
             subprocess.Popen(
-                "/usr/bin/python3 " + ".'/runwebserver.py 1",shell=True)  # RUN WEBSERVER IN BG UNIX
+                "/usr/bin/python3 " + "./runwebserver.py 1",shell=True)  # RUN WEBSERVER IN BG UNIX
             log.close()
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING

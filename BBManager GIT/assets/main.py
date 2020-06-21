@@ -19,7 +19,7 @@ try:
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK
         elif os.name == 'posix':
-            subprocess.call("python3" + "./assets/webserver.py" + str(sys.argv[2]) + str(sys.argv[3]) + "&")  # RUN WEBSERVER IN BG UNIX
+            subprocess.call("/usr/bin/python3 " + "webserver.py " + str(sys.argv[2]) + " " + str(sys.argv[3]) + " &",shell=True)  # RUN WEBSERVER IN BG UNIX
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK

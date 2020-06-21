@@ -22,7 +22,7 @@ try:
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w") #KEEP IN MIND WHICH IS MY PID
             log.flush
-            subprocess.Popen("/usr/bin/python3 " + ".'/runwebserver.py 0" + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG UNIX
+            subprocess.Popen("/usr/bin/python3 " + "./runwebserver.py 0" + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG UNIX
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK
@@ -32,12 +32,12 @@ try:
             if os.name == 'nt': #IF OS IS WINDOWS
                 subprocess.call("python3"+" runserver.py"+str(sys.argv[2])+str(sys.argv[3])+"&")  # RUN BBSERVER IN BG WIN
                 time.sleep(5)
-                if os.path.exists('status.txt') == True:  # CHECK IF BB SERVER IS STARTING
+                if os.path.exists('bb_status.txt') == True:  # CHECK IF BB SERVER IS STARTING
                     print("BB server is starting")  # PRINT OK
             elif os.name == 'posix':
                 subprocess.call("python3"+"./assets/runserver.py"+str(sys.argv[2])+str(sys.argv[3])+"&") #RUN BBSERVER IN BG UNIX
                 time.sleep(5)
-                if os.path.exists('status.txt') == True: #CHECK IF BB SERVER IS STARTING
+                if os.path.exists('bb_status.txt') == True: #CHECK IF BB SERVER IS STARTING
                     print("BB server is starting") #PRINT OK
             else:
                 print("OS Type is not support: USE LINUX OR WINDOWS BASED PC!")

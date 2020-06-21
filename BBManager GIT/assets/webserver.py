@@ -41,6 +41,8 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
     myPID()
+    status = open("httpd_status.txt", "w")
+    status.write(host,'\n',port)
     # entra nel loop infinito
     try:
         while True:

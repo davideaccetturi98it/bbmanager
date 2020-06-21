@@ -13,16 +13,16 @@ try:
     if int(sys.argv[1]) == 0:
     ##RUN WEBSERVER
         if os.name == 'nt':  # IF OS IS WINDOWS
-            f = open("httpd_pid.txt", "w")
-            subprocess.call("python" + " webserver.py " + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,stdout=f)  # RUN WEBSERVER IN BG WIN
-            f.close()
+            log = open("bgerrors.log", "w")
+            log.flush()
+            subprocess.Popen("python" + " runwebserver.py 0 " + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,stdout=log,close_fds=True)  # RUN WEBSERVER IN BG WIN
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK
         elif os.name == 'posix':
-            f = open("httpd_pid.txt", "w") #KEEP IN MIND WHICH IS MY PID
-            subprocess.call("/usr/bin/python3 " + ".'/webserver.py " + str(sys.argv[2]) + " " + str(sys.argv[3]) + " &",shell=True)  # RUN WEBSERVER IN BG UNIX
-            f.close()
+            log = open("bgerrors.txt", "w") #KEEP IN MIND WHICH IS MY PID
+            log.flush
+            subprocess.Popen("/usr/bin/python3 " + ".'/runwebserver.py 0" + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG UNIX
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK
@@ -46,7 +46,23 @@ try:
     elif int(sys.argv[1]) == 3:
         status()
     elif int(sys.argv[1]) == 4:
-        status()
+        ##DISABLE WEB SERVER
+        if os.name == 'nt':  # IF OS IS WINDOWS
+            log = open("bgerrors.log", "w")
+            subprocess.Popen("python runwebserver.py 1 ", shell=True,stdout=log, close_fds=True)  # RUN WEBSERVER IN BG WIN
+            log.close()
+            time.sleep(5)
+            if os.path.exists('httpd_status.txt') == False:  # CHECK IF WEB SERVER IS STARTING
+                print("WebServer is shutting down gracefully")  # PRINT OK
+        elif os.name == 'posix':
+            log = open("bgerrors.txt", "w")  # TRACE ERRORS
+            subprocess.Popen(
+                "/usr/bin/python3 " + ".'/runwebserver.py 0" + str(sys.argv[2]) + " " + str(sys.argv[3]) + " &",
+                shell=True, close_fds=True)  # RUN WEBSERVER IN BG UNIX
+            log.close()
+            time.sleep(5)
+            if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
+                print("BB server is starting")  # PRINT OK
 
 except IndexError:
     print("Please, run this tool with the following argument :\n0-Enable WebServer (HOST and PORT must be sent as argument)\n1-Start BBServer (PULSE and TIME must be sent as argument\n2-Start BB Cli\n3-Show BB Status")

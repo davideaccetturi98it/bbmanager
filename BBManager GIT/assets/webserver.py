@@ -3,6 +3,18 @@ import socketserver
 import signal,sys
 import os
 
+def myPID():
+    mypid = open("httpd_pid.txt", "w")
+    pid=str(os.getpid())
+    mypid.write(pid)
+    mypid.close()
+
+def stop_webserver():
+    try:
+        mypid = open("httpd_pid.txt", "r")
+        os.kill(int(mypid.read()), signal.SIGTERM)
+    except FileNotFoundError:
+        print("Nessun server in esecuzione!")
 def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
 
     server = socketserver.ThreadingTCPServer((host, port), http.server.SimpleHTTPRequestHandler)
@@ -20,7 +32,7 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
         try:
             if (server):
                 server.server_close()
-                os.remove("httpd_pid.txt")
+                os.remove("httpd_status.txt")
 
         finally:
             sys.exit(0)
@@ -28,6 +40,7 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
     # interrompe l’esecuzione se eseguo un sigterm da process
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
+    myPID()
     # entra nel loop infinito
     try:
         while True:
@@ -37,4 +50,3 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
         pass
     server.server_close()
 
-start_webserver(str(sys.argv[1]), int(sys.argv[2]))

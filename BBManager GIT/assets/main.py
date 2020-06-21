@@ -22,7 +22,7 @@ try:
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w") #KEEP IN MIND WHICH IS MY PID
             log.flush
-            subprocess.Popen("/usr/bin/python3 " + "./runwebserver.py 0" + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG UNIX
+            subprocess.Popen("/usr/bin/python3 " + "./runwebserver.py " + str(sys.argv[1]) + " " + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG UNIX
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK

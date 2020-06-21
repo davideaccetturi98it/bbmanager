@@ -1,6 +1,7 @@
 import http.server
 import socketserver
 import signal,sys
+import os
 
 def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
 
@@ -15,16 +16,18 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
 
     # definiamo una funzione per permetterci di uscire dal processo tramite Ctrl-C
     def signal_handler(signal, frame):
-        print('Exiting http server (Ctrl+C pressed)')
+        print('Exiting from http server')
         try:
             if (server):
                 server.server_close()
+                os.remove("httpd_pid.txt")
+
         finally:
             sys.exit(0)
 
     # interrompe l’esecuzione se eseguo un sigterm da process
     signal.signal(signal.SIGTERM, signal_handler)
-
+    signal.signal(signal.SIGINT, signal_handler)
     # entra nel loop infinito
     try:
         while True:

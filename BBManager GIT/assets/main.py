@@ -13,13 +13,16 @@ try:
     if int(sys.argv[1]) == 0:
     ##RUN WEBSERVER
         if os.name == 'nt':  # IF OS IS WINDOWS
-            subprocess.call(
-                "python3" + "\\assets\\webserver.py" + str(sys.argv[2]) + str(sys.argv[3]) + "&")  # RUN WEBSERVER IN BG WIN
+            f = open("httpd_pid.txt", "w")
+            subprocess.call("python" + " webserver.py " + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,stdout=f)  # RUN WEBSERVER IN BG WIN
+            f.close()
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK
         elif os.name == 'posix':
-            subprocess.call("/usr/bin/python3 " + "webserver.py " + str(sys.argv[2]) + " " + str(sys.argv[3]) + " &",shell=True)  # RUN WEBSERVER IN BG UNIX
+            f = open("httpd_pid.txt", "w") #KEEP IN MIND WHICH IS MY PID
+            subprocess.call("/usr/bin/python3 " + ".'/webserver.py " + str(sys.argv[2]) + " " + str(sys.argv[3]) + " &",shell=True)  # RUN WEBSERVER IN BG UNIX
+            f.close()
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("BB server is starting")  # PRINT OK
@@ -27,7 +30,7 @@ try:
     elif int(sys.argv[1]) == 1:
     ##RUN BBSERVER
             if os.name == 'nt': #IF OS IS WINDOWS
-                subprocess.call("python3"+"runserver.py"+str(sys.argv[2])+str(sys.argv[3])+"&")  # RUN BBSERVER IN BG WIN
+                subprocess.call("python3"+" runserver.py"+str(sys.argv[2])+str(sys.argv[3])+"&")  # RUN BBSERVER IN BG WIN
                 time.sleep(5)
                 if os.path.exists('status.txt') == True:  # CHECK IF BB SERVER IS STARTING
                     print("BB server is starting")  # PRINT OK

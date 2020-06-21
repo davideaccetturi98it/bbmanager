@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Door status</title>
+</head>
+<body>
+ <input type="button" id='script' name="runCheck" value=" Run Script " onclick="activeDoor()">
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>
+        function activeDoor(){
+            $.ajax({
+              url: "DoorManager.py",
+             context: document.body
+            }).done(function() {
+             alert('The Door controll is now active');;
+            });
+        }
+    </script>
+    <script>
+        function activeDoor(){
+            $.ajax({
+              url: "DoorManager.py",
+             context: document.body
+            }).done(function() {
+             alert('The Door controll is now active');;
+            });
+        }
+    </script>
+</body>
+</html>

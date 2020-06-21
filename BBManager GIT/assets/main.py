@@ -49,7 +49,7 @@ try:
         ##DISABLE WEB SERVER
         if os.name == 'nt':  # IF OS IS WINDOWS
             log = open("bgerrors.log", "w")
-            subprocess.Popen("python runwebserver.py 1 ", shell=True,stdout=log, close_fds=True)  # RUN WEBSERVER IN BG WIN
+            subprocess.Popen("python runwebserver.py 1 ", shell=True)  # RUN WEBSERVER IN BG WIN
             log.close()
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == False:  # CHECK IF WEB SERVER IS STARTING
@@ -57,8 +57,7 @@ try:
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w")  # TRACE ERRORS
             subprocess.Popen(
-                "/usr/bin/python3 " + ".'/runwebserver.py 0" + str(sys.argv[2]) + " " + str(sys.argv[3]) + " &",
-                shell=True, close_fds=True)  # RUN WEBSERVER IN BG UNIX
+                "/usr/bin/python3 " + ".'/runwebserver.py 1",shell=True)  # RUN WEBSERVER IN BG UNIX
             log.close()
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == True:  # CHECK IF WEB SERVER IS STARTING

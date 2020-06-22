@@ -60,7 +60,8 @@ def myPID():
     mypid.write(pid)
     mypid.close()
 
-def add_pulse():
+def add_pulse(control):
+    print("Pulsante Premuto") ##DEBUG
     global actualPULSE
     actualPULSE=actualPULSE+1
 
@@ -75,7 +76,7 @@ def start_evaluation(timet,pulse):
     GPIO.remove_event_detect(22)
     global actualPULSE
     print("Numero pulsazioni:", actualPULSE)
-    if actualPULSE==pulse:
+    if actualPULSE!=pulse:
         open_door()
 
 
@@ -95,9 +96,9 @@ def listen_socket(pulse,timet):
         GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
         GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
         GPIO.setup(14, GPIO.OUT) #Setup GPIO OUT for door relais.
-        GPIO.output(pin, GPIO.HIGH) #TURN OFF RELAIS
+        GPIO.output(14, GPIO.HIGH) #TURN OFF RELAIS
         GPIO.add_event_detect(22, GPIO.RISING)  # First push
         while True:
             if GPIO.event_detected(22):
                    break
-        start_evaluation(time,pulse)
+        start_evaluation(timet,pulse)

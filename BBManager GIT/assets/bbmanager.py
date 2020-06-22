@@ -69,9 +69,9 @@ def start_evaluation(timet,pulse):
     GPIO.remove_event_detect(22)
     GPIO.add_event_detect(22, GPIO.RISING, callback=add_pulse)  # Next push
     timeout=time.time()+int(timet)
-        while True:
-            if time.time()>=timeout:
-                break
+    while True:
+        if time.time()>=timeout:
+            break
     GPIO.remove_event_detect(22)
     global actualPULSE
     if actualPULSE==pulse:
@@ -92,5 +92,7 @@ def listen_socket(pulse,timet):
         GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
         GPIO.setup(17, GPIO.OUT)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
         GPIO.add_event_detect(22, GPIO.RISING)  # First push
-        if GPIO.event_detected(22):
-            start_evaluation(time,pulse)
+        while True:
+            if GPIO.event_detected(22):
+                   break
+        start_evaluation(time,pulse)

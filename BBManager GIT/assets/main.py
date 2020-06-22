@@ -56,8 +56,7 @@ try:
                 print("WebServer is shutting down gracefully")  # PRINT OK
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w")  # TRACE ERRORS
-            subprocess.Popen(
-                "/usr/bin/python3 " + "./runwebserver.py 1",shell=True)  # DISABLE WEBSERVER IN BG UNIX
+            subprocess.Popen("/usr/bin/python3 " + "./runwebserver.py 1",shell=True)  # DISABLE WEBSERVER IN BG UNIX
             log.close()
             time.sleep(5)
             if os.path.exists('httpd_status.txt') == False:  # CHECK IF WEB SERVER IS STARTING

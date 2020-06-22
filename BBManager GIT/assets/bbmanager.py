@@ -61,8 +61,8 @@ def myPID():
     mypid.write(pid)
     mypid.close()
 
-def start_evaluation(time):
-    timeout=time.time()+time
+def start_evaluation(timet):
+    timeout=time.time()+timet
     while time.time()<timeout:
         GPIO.add_event_detect(22, GPIO.RISING, callback=add_pulse())  # First push
         GPIO.cleanup()  # Clean up
@@ -79,10 +79,10 @@ def open_door():
 def add_pulse():
     actualPULSE=actualPULSE+1
 
-def listen_socket(pulse,time):
+def listen_socket(pulse,timet):
     while True:
         actualPULSE = 0
-        GPIO.add_event_detect(22, GPIO.RISING, callback=start_evaluation(time))  # First push
+        GPIO.add_event_detect(22, GPIO.RISING, callback=start_evaluation(timet))  # First push
         if actualPULSE==pulse:
             open_door()
             break

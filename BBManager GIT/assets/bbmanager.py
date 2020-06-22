@@ -81,6 +81,7 @@ def add_pulse():
 
 def listen_socket(pulse,timet):
     while True:
+        global actualPULSE
         actualPULSE = 0
         GPIO.add_event_detect(22, GPIO.RISING, callback=start_evaluation(timet))  # First push
         if actualPULSE==pulse:

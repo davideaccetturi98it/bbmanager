@@ -77,6 +77,7 @@ def open_door():
     print("Porta aperta")
 
 def add_pulse():
+    global actualPULSE
     actualPULSE=actualPULSE+1
 
 def listen_socket(pulse,timet):

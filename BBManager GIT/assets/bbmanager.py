@@ -62,7 +62,7 @@ def myPID():
     mypid.close()
 
 def start_evaluation(timet):
-    timeout=time.time()+(int)timet
+    timeout=time.time()+int(timet)
     while time.time()<timeout:
         GPIO.add_event_detect(22, GPIO.RISING, callback=add_pulse())  # First push
         GPIO.cleanup()  # Clean up

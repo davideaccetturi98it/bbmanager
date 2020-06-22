@@ -61,20 +61,17 @@ def myPID():
     mypid.write(pid)
     mypid.close()
 
-def start_evaluation():
-    while True:
+def start_evaluation(time):
+    timeout=time.time()+time
+    while time.time()<timeout:
         GPIO.add_event_detect(22, GPIO.RISING, callback=add_pulse())  # First push
+        GPIO.cleanup()  # Clean up
 
 def GPIO_config():
     GPIO.setwarnings(False)  # Ignore warning for now
     GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
     GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
     GPIO.setup(17, GPIO.OUT)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-
-def GIPIO():
-    GPIO.add_event_detect(22, GPIO.RISING, callback=button_callback)  # Setup event on pin 10 rising edge
-    message = input("Press enter to quit\n\n")  # Run until someone presses enter
-    GPIO.cleanup()  # Clean up
 
 def open_door():
     print("Porta aperta")
@@ -85,7 +82,7 @@ def add_pulse():
 def listen_socket(pulse,time):
     while True:
         actualPULSE = 0
-        GPIO.add_event_detect(22, GPIO.RISING, callback= func_timeout(time, start_evaluation()))  # First push
+        GPIO.add_event_detect(22, GPIO.RISING, callback=start_evaluation(time))  # First push
         if actualPULSE==pulse:
             open_door()
             break

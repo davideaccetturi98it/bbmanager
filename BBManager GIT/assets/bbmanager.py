@@ -84,6 +84,7 @@ def start_evaluation(timet,pulse):
 def open_door():
     print("Apro porta")
     GPIO.output(14, GPIO.LOW)  # Turn on Relais. (Open the door)
+    GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relais.
     time.sleep(1)
     GPIO.cleanup()
 
@@ -95,8 +96,6 @@ def listen_socket(pulse,timet):
         GPIO.setwarnings(False)  # Ignore warning for now
         GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
         GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-        GPIO.setup(14, GPIO.OUT) #Setup GPIO OUT for door relais.
-        GPIO.output(14, GPIO.HIGH) #TURN OFF RELAIS
         GPIO.add_event_detect(22, GPIO.RISING)  # First push
         while True:
             if GPIO.event_detected(22):

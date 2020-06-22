@@ -34,7 +34,6 @@ def start_server(pulse,time):
     signal.signal(signal.SIGINT, signal_handler)
     myPID()
     #RPI CODE
-    GPIO_config()
     listen_socket(pulse,time)
 
 def stop_server(): # RIMUOVO IL FILE DI STATO
@@ -61,30 +60,37 @@ def myPID():
     mypid.write(pid)
     mypid.close()
 
-def start_evaluation(timet):
-    timeout=time.time()+int(timet)
-    while time.time()<timeout:
-        GPIO.add_event_detect(22, GPIO.RISING, callback=add_pulse())  # First push
-        GPIO.cleanup()  # Clean up
+def add_pulse():
+    global actualPULSE
+    actualPULSE=actualPULSE+1
 
-def GPIO_config():
-    GPIO.setwarnings(False)  # Ignore warning for now
-    GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
-    GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-    GPIO.setup(17, GPIO.OUT)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+def start_evaluation(timet),pulse:
+
+    GPIO.remove_event_detect(22)
+    GPIO.add_event_detect(22, GPIO.RISING, callback=add_pulse())  # Next push
+    timeout=time.time()+int(timet)
+        while True:
+            if time.time()>=timeout:
+                break:
+    GPIO.remove_event_detect(22)
+    global actualPULSE
+    if actualPULSE==pulse:
+        open_door()
+
+
 
 def open_door():
     print("Porta aperta")
 
-def add_pulse():
-    global actualPULSE
-    actualPULSE=actualPULSE+1
 
 def listen_socket(pulse,timet):
     while True:
         global actualPULSE
         actualPULSE = 0
-        GPIO.add_event_detect(22, GPIO.RISING, callback=start_evaluation(timet))  # First push
-        if actualPULSE==pulse:
-            open_door()
-            break
+        GPIO.setwarnings(False)  # Ignore warning for now
+        GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
+        GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+        GPIO.setup(17, GPIO.OUT)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+        GPIO.add_event_detect(22, GPIO.RISING, callback=start_evaluation(timet,pulse))  # First push
+
+

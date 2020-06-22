@@ -73,8 +73,8 @@ def start_evaluation(timet,pulse):
         if time.time()>=timeout:
             break
     GPIO.remove_event_detect(22)
-    print("Numero pulsazioni:",actualPULSE)
     global actualPULSE
+    print("Numero pulsazioni:", actualPULSE)
     if actualPULSE==pulse:
         open_door()
 
@@ -95,7 +95,7 @@ def listen_socket(pulse,timet):
         GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
         GPIO.setup(22, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
         GPIO.setup(14, GPIO.OUT) #Setup GPIO OUT for door relais.
-        GPIO.setup(17, GPIO.OUT)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+        GPIO.output(pin, GPIO.HIGH) #TURN OFF RELAIS
         GPIO.add_event_detect(22, GPIO.RISING)  # First push
         while True:
             if GPIO.event_detected(22):

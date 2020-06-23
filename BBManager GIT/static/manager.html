@@ -3,55 +3,55 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>BB Manager</title>
 </head>
 <body>
-<h2>BB Manager</h2>
+<h2>BB Manager <br>Welcome to the Bed&Breakfast manager!</h2>
+<h5 style="color: #19ABC2">You can see the current parameters below or change them as you prefer</h5>
 
-<table>
-  <tr>
-    <td>Status:</td>
-  </tr>
-     <tr>
-          <td><br><button type="button" class="btn btn-primary">View logs</button></td>
-      </tr>
+<table class="table" style="background-color: #FCF3CF">
+  <tbody>
     <tr>
-        <td><br>Current settings</td>
-        <td><br>Number of impulses: </td>
-    </tr>
-    <tr>
+      <td style="text-align:center">Status</td>
         <td></td>
-        <td>Time: </td>
-
     </tr>
-     <tr>
-         <td>
-       <br> <button type="submit"><b>Activate</b></button>
-        <button type="submit"><b>Deactivate</b></button>
-        </td>
-     </tr>
-
+    <tr>
+      <td  style="text-align: center; vertical-align: middle" rowspan="2">Current Settings</td>
+      <td>Number of impulses:</td>
+    </tr>
+      <tr>
+      <td>Time:</td>
+    </tr>
   <tr>
-      <td> <br><br>Change settings</td></td>
+      <td style="text-align:center" colspan="3"> <button type="submit" class="btn btn-outline-success"><b>Activate</b></button>
+          <button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>
+          <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<table class="table" style="background-color: #D5F5E3">
+ <tbody>
+  <tr>
+      <td style="text-align: center; vertical-align: middle" rowspan="2"><b>Change settings</b></td>
       <td><form action="/action_page.php" method="post"> <label for="nimpulses">Number of impulses:</label>
           <input type="number" id="nimpulses" name="nimpulses"></form>
       </td>
   </tr>
   <tr>
-      <td></td>
-      <td><form action="/action_page.php" method="post" class="form-control"> <label for="time">Time:</label>
+      <td><form action="/action_page.php" method="post"> <label for="time">Time:</label>
           <input type="number" id="time" name="time"></form>
       </td>
   </tr>
   <tr>
-          <td><br><button type="submit"><b>Submit</b></button></td>
+      <td style="text-align: center" colspan="3"><button type="button" class="btn btn-outline-primary"><b>Submit</b></button></td>
   </tr>
-  <tr>
-          <td><br><button type="submit"><b>Go back HOME</b></button></td>
-  </tr>
-
+ </tbody>
 </table>
-</form>
+
+<br> <a href="index.html"><button class="btn btn-primary" type="submit"><b>Go back HOME</b></button></a>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

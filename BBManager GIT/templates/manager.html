@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
@@ -19,38 +19,39 @@
       <td  style="text-align: center; vertical-align: middle" rowspan="2">Current Settings</td>
       <td>Number of impulses:</td>
     </tr>
-    <tr>
+      <tr>
       <td>Time:</td>
     </tr>
   <tr>
-     <td style="text-align:center" colspan="3"> <button type="submit" class="btn btn-outline-success"><b>Activate</b></button>
-         <button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>
-         <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>
+      <td style="text-align:center" colspan="3"> <button type="submit" class="btn btn-outline-success"><b>Activate</b></button>
+          <button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>
+          <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>
     </td>
   </tr>
   </tbody>
 </table>
 
+<form action="api/startbb" method="post" id="startbb">
 <table class="table" style="background-color: #D5F5E3; width: 60%; margin-right: 20%; margin-left: 20%; border-style: solid; border-color: #19ABC2">
  <tbody>
   <tr>
       <td style="text-align: center; vertical-align: middle" rowspan="2"><b>Change settings</b></td>
-      <td style="border-right-style: solid; border-right-color: #19ABC2"><form action="/action_page.php" method="post"> <label for="nimpulses">Number of impulses:</label>
-          <input type="number" id="nimpulses" name="nimpulses"></form>
+      <td><label for="pulse">Number of impulses:</label>
+          <input type="number" id="pulse" name="pulse"></form>
       </td>
   </tr>
   <tr>
-      <td style="border-right-style: solid; border-right-color: #19ABC2"><form action="/action_page.php" method="post"> <label for="time">Time:</label>
+      <td><label for="time">Time:</label>
           <input type="number" id="time" name="time"></form>
       </td>
   </tr>
   <tr>
-      <td style="text-align: center" colspan="3"><button type="button" class="btn btn-outline-primary"><b>Submit</b></button></td>
+      <td style="text-align: center" colspan="3"><button type="submit" class="btn btn-outline-primary" form="startbb"><b>Submit</b></button></td>
   </tr>
  </tbody>
 </table>
 
-<br> <a href="index.html"><button class="btn btn-primary" type="submit"><b>Go back HOME</b></button></a>
+<br> <a href="/"><button class="btn btn-primary" type="submit"><b>Go back HOME</b></button></a>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

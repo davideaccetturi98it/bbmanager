@@ -42,7 +42,7 @@ try:
     elif int(sys.argv[1]) == 5:
         ##DISABLE WEB SERVER
         if os.name == 'nt':  # IF OS IS WINDOWS
-            log = open("bgerrors.log", "w")
+            log = open("../logs/bg_errors_ws.log", "w")
             subprocess.Popen("python runwebserver.py 1 ", shell=True)  # DISABLE WEBSERVER IN BG WIN
             log.close()
             time.sleep(5)

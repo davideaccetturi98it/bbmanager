@@ -5,25 +5,26 @@
     <meta charset="UTF-8">
     <title>BB Manager</title>
 </head>
-<body>
+<body style="text-align: center"> <br>
 <h2>BB Manager <br>Welcome to the Bed&Breakfast manager!</h2>
-<h5 style="color: #19ABC2">You can see the current parameters below or change them as you prefer</h5>
+<h5 style="color: #19ABC2">You can see the current parameters below or change them as you prefer</h5> <br>
 
+<!-- First table with the current status and settings -->
 <table class="table" style="background-color: #FCF3CF; width: 60%; margin-right: 20%; margin-left: 20%; border-style: solid; border-color: #19ABC2">
   <tbody>
     <tr>
-      <td style="text-align:center">Status</td>
-        <td></td>
+      <td>Status</td>
+        <td style="border-right-style: solid; border-right-color: #19ABC2"></td>
     </tr>
     <tr>
-      <td  style="text-align: center; vertical-align: middle" rowspan="2">Current Settings</td>
-      <td>Number of impulses:</td>
+      <td  style="vertical-align: middle" rowspan="2">Current Settings</td>
+      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Number of impulses:</td>
     </tr>
       <tr>
-      <td>Time:</td>
+      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Time:</td>
     </tr>
   <tr>
-      <td style="text-align:center" colspan="3"> <button type="submit" class="btn btn-outline-success"><b>Activate</b></button>
+      <td colspan="3"> <button type="submit" class="btn btn-outline-success"><b>Activate</b></button>
           <button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>
           <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>
     </td>
@@ -31,27 +32,39 @@
   </tbody>
 </table>
 
-<form action="api/startbb" method="post" id="startbb">
+<!-- Second table with the possibility of changing settings -->
+
 <table class="table" style="background-color: #D5F5E3; width: 60%; margin-right: 20%; margin-left: 20%; border-style: solid; border-color: #19ABC2">
  <tbody>
+ <form action="api/startbb" method="post" id="startbb">
   <tr>
-      <td style="text-align: center; vertical-align: middle" rowspan="2"><b>Change settings</b></td>
-      <td><label for="pulse">Number of impulses:</label>
-          <input type="number" id="pulse" name="pulse"></form>
+      <td style="text-align: center; vertical-align: middle" rowspan="2"><b>Change settings</b>
+      </td>
+      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2"><label for="pulse">Number of impulses:</label>
+          <input type="number" id="pulse" name="pulse">
       </td>
   </tr>
   <tr>
-      <td><label for="time">Time:</label>
-          <input type="number" id="time" name="time"></form>
+      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2"><label for="time">Time:</label>
+          <input type="number" id="time" name="time">
       </td>
   </tr>
+ </form>
   <tr>
-      <td style="text-align: center" colspan="3"><button type="submit" class="btn btn-outline-primary" form="startbb"><b>Submit</b></button></td>
+      <td style="text-align: center" colspan="3"><button type="submit" class="btn btn-outline-primary" form="startbb"><b>Submit</b></button>
+      </td>
   </tr>
  </tbody>
 </table>
 
+
+<!-- Button with the reference to Index page -->
 <br> <a href="/"><button class="btn btn-primary" type="submit"><b>Go back HOME</b></button></a>
+
+<!-- Footer with copyright -->
+<footer class="page-footer font-small blue fixed-bottom">
+  <div class="footer-copyright text-center py-3">© 2020 Copyright</div>
+</footer>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,flash
 from bbmanager import bb_status
 import subprocess
 import os
@@ -33,17 +33,21 @@ def start_webserver(host1,port1):
         return bb_status()
     @app.route('/api/startbb',methods=["GET","POST"])
     def api_startbb():
+        if request.method == "GET":
+            data = bb_config()
+            api_stat = subprocess.Popen("python3" + " main.py " + str(2) + " " + str(data[TIME]) + " " + str(data[PULSE]),shell=True)  # RUN BBSERVER IN BG WIN
+            return "BB Server is going to start"
         if request.method == "POST":
             timet = request.form['time']
             pulse = request.form['pulse']
-        api_stat=subprocess.Popen("python3" + " main.py " + str(2) + " " + str(timet) + " " + str(pulse),shell=True)  # RUN BBSERVER IN BG WIN
-        return "Command Executed!"
+            api_stat=subprocess.Popen("python3" + " main.py " + str(2) + " " + str(timet) + " " + str(pulse),shell=True)  # RUN BBSERVER IN BG WIN
+            return "BB Server is going to restart with the new parameters"
     @app.route('/api/stopbb')
     def api_stopbb():
         api_stat = subprocess.Popen("python3" + " main.py " + str(6),shell=True)  # RUN BBSERVER IN BG WIN
         return api_stat
 
-    app.run(host=host1, port=port1)
+    app.run(host=host1, port=port1) #RUN WEBSERVER
 
 def stop_webserver():
     try:
@@ -61,3 +65,11 @@ def web_status():
         return "ON"
     else:
         return "OFF"
+
+def bb_config():
+    with open('../config/bbsettings.config') as f:
+        data = {}
+        for line in f:
+            key, value = line.strip().split('=')
+            data[key] = value
+    return data

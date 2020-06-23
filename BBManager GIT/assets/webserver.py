@@ -4,19 +4,19 @@ import signal,sys
 import os
 
 def myPID():
-    mypid = open("httpd_pid.txt", "w")
+    mypid = open("../logs/httpd_pid.log", "w")
     pid=str(os.getpid())
     mypid.write(pid)
     mypid.close()
 
 def stop_webserver():
     try:
-        pid = open("httpd_pid.txt", "r")
+        pid = open("../logs/httpd_pid.log", "r")
         mypid=pid.read()
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
-        os.remove("httpd_pid.txt")
-        os.remove("httpd_status.txt")
+        os.remove("../logs/httpd_pid.log")
+        os.remove("../logs/httpd_status.log")
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
 
@@ -44,7 +44,7 @@ def start_webserver(host,port): #DEFINISCO IMPOSTAZIONI WEBSERVER
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
     myPID()
-    status = open("httpd_status.txt", "w")
+    status = open("../logs/httpd_status.log", "w")
     status.write(host + '\n' + str(port))
     status.close()
     # entra nel loop infinito

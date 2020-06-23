@@ -1,8 +1,11 @@
 import sys,signal
 import os
-import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
 import time
 
+try:
+    import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
+except ModuleNotFoundError:
+    print("BB Server is only available on RPI based Systems")
 
 def start_cli():
     print("Welcome to BB Manager CLI\nPress 1 if you want disable the BB Server\nPress 2 if you want change the timeout\nPress 3 if you want see the logs\nPress 4 if you want close the CLI")
@@ -10,7 +13,7 @@ def start_cli():
 
 
 def status():
-    if os.path.exists('status.txt')==True:
+    if os.path.exists('../logs/status.txt')==True:
         print("BB Server is running")
     else:
         print("BB Server is not running")
@@ -87,7 +90,6 @@ def open_door():
     GPIO.output(14, GPIO.LOW)  # Turn on Relais. (Open the door)
     time.sleep(1)
     GPIO.cleanup()
-
 
 def listen_socket(pulse,timet):
     while True:

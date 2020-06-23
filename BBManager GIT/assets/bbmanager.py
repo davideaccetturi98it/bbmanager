@@ -12,17 +12,11 @@ def start_cli():
   #  while True
 
 
-def status():
-    if os.path.exists('../logs/status.txt')==True:
-        print("BB Server is running")
+def bb_status():
+    if os.path.exists('../logs/status.log')==True:
+        return "ON"
     else:
-        print("BB Server is not running")
-
-def status_html():
-    if status=="True":
-        print("Server is running:")
-    else:
-        print("Server is not running")
+        return "OFF"
 
 # interrompe l’esecuzione se da tastiera arriva la sequenza (CTRL + C)
 
@@ -49,6 +43,7 @@ def stop_server(): # RIMUOVO IL FILE DI STATO
         os.remove("server_status.txt")
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
+
 def status_start(pulse,time): # CREO IL FILE DI STATO
     f = open("server_status.txt", "w")
     f.write(pulse + '\n' + time)
@@ -81,8 +76,6 @@ def start_evaluation(timet,pulse):
     print("Numero pulsazioni:", actualPULSE)
     if actualPULSE!=pulse:
         open_door()
-
-
 
 def open_door():
     print("Apro porta")

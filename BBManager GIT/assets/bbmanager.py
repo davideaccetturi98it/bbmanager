@@ -1,6 +1,7 @@
 import sys,signal
 import os
 import time
+from datetime import datetime
 
 try:
     import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
@@ -19,6 +20,11 @@ def bb_status():
         return "OFF"
 
 # interrompe l’esecuzione se da tastiera arriva la sequenza (CTRL + C)
+
+def update_bbserver(newpulse,newtime):
+    file=open('./config/bbsettings.config','w')
+    file.write("PULSE="+str(newpulse)+"\n"+"TIME="+str(newtime))
+    file.close()
 
 def start_server(pulse,time):
     def signal_handler(signal, frame):
@@ -81,7 +87,9 @@ def start_evaluation(timet,pulse):
         open_door()
 
 def open_door():
-    print("Apro porta")
+    log=open("./logs/bb_guests_confirmed.log",'a')
+    log.write(str(datetime.now())+" A new guest has done the checkIN successifuly\n")
+    log.close()
     GPIO.setwarnings(False)  # Ignore warning for now
     GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
     GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relais.

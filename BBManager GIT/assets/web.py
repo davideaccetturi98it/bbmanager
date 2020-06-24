@@ -4,6 +4,7 @@ import subprocess
 import os
 import signal
 import sys
+import time
 
 def myPID():
     mypid = open("./logs/httpd_pid.log", "w")
@@ -38,7 +39,8 @@ def start_webserver(host1,port1):
             return render_template('index.html')
         @app.route('/manager')
         def manager():
-            return render_template('manager.html',status=bb_status())
+            data=bb_config()
+            return render_template('manager.html',status=bb_status(),pulse=data[0],time=data[1])
         @app.route('/status')
         def status():
             return render_template('status.html')
@@ -51,6 +53,7 @@ def start_webserver(host1,port1):
         @app.route('/textpage')
         def textpage():
             return render_template('textpage.html')
+
         @app.route('/api/startbb',methods=["GET","POST"])
         def api_startbb():
             if request.method == "GET":
@@ -60,6 +63,9 @@ def start_webserver(host1,port1):
             if request.method == "POST":
                 timet = request.form['time']
                 pulse = request.form['pulse']
+                update_bbserver(pulse,timet)
+                api_stat = subprocess.Popen("python3" + " ./main.py " + str(6), shell=True)  # STOP BB SERVER
+                time.sleep(2)
                 api_stat=subprocess.Popen("python3" + " ./main.py " + str(2) + " " + str(timet) + " " + str(pulse),shell=True)  # RUN BBSERVER IN BG WIN
                 return "BB Server is going to restart with the new parameters"
         @app.route('/api/stopbb')

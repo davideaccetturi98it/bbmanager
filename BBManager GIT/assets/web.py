@@ -46,7 +46,7 @@ def start_webserver(host1,port1):
     @app.route('/api/stopbb')
     def api_stopbb():
         api_stat = subprocess.Popen("python3" + " ./main.py " + str(6),shell=True)  # RUN BBSERVER IN BG WIN
-        return api_stat
+        return "BB Server is going to shut down. Thanks for using our product"
     @app.route('/api/opendoor')
     def api_door():
         api_stat = open_door()

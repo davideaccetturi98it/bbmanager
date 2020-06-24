@@ -1,6 +1,7 @@
 from bbmanager import start_server
 from bbmanager import stop_server
 import sys
+import os
 
 
 #CREO IL FILE CHE INDICA I PARAMETRI RICHIESTI

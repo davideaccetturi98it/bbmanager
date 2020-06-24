@@ -21,7 +21,7 @@ def start_webserver(host1,port1):
         return render_template('index.html')
     @app.route('/manager')
     def manager():
-        return render_template('manager.html')
+        return render_template('manager.html',status=bb_status())
     @app.route('/status')
     def status():
         return render_template('status.html')

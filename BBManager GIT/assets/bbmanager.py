@@ -13,10 +13,10 @@ def start_cli():
 
 
 def bb_status():
-    if os.path.exists('../logs/status.log')==True:
+    if os.path.exists('./logs/bbserver_status.log'):
         return "ON"
     else:
-        return "OFF"
+        return "ON"
 
 # interrompe l’esecuzione se da tastiera arriva la sequenza (CTRL + C)
 
@@ -27,7 +27,7 @@ def start_server(pulse,time):
         finally:
             sys.exit(0)
     print("BB Server is starting")
-    status_start(pulse, time)
+    #status_start(pulse, time)
     signal.signal(signal.SIGINT, signal_handler)
     myPID()
     #RPI CODE
@@ -35,17 +35,17 @@ def start_server(pulse,time):
 
 def stop_server(): # RIMUOVO IL FILE DI STATO
     try:
-        pid = open("server_pid.txt", "r")
+        pid = open("./log/server_pid.log", "r")
         mypid=pid.read()
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
-        os.remove("server_pid.txt")
-        os.remove("server_status.txt")
+        os.remove("./log/server_pid.log")
+        os.remove("./log/bbserver_status.log")
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
 
 def status_start(pulse,time): # CREO IL FILE DI STATO
-    f = open("server_status.txt", "w")
+    f = open("./logs/bbserverver_status.log", "w")
     f.write(pulse + '\n' + time)
     f.close()
 
@@ -53,7 +53,7 @@ def read_logs(last):
     f = open("lastcall.txt","r")
 
 def myPID():
-    mypid = open("server_pid.txt", "w")
+    mypid = open("./logs/server_pid.log", "w")
     pid = str(os.getpid())
     mypid.write(pid)
     mypid.close()
@@ -87,14 +87,21 @@ def open_door():
     GPIO.cleanup()
 
 def listen_socket(pulse,timet):
-    while True:
-        global actualPULSE
-        actualPULSE = 0
-        GPIO.setwarnings(False)  # Ignore warning for now
-        GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
-        GPIO.setup(18, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-        GPIO.add_event_detect(18, GPIO.RISING)  # First push
+
+    try:
+        file=open("./logs/bbserver_status.log","w")
+        file.write("ON")
+        file.close()
         while True:
-            if GPIO.event_detected(18):
-                   break
-        start_evaluation(timet,pulse)
+            global actualPULSE
+            actualPULSE = 0
+            GPIO.setwarnings(False)  # Ignore warning for now
+            GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
+            GPIO.setup(18, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+            GPIO.add_event_detect(18, GPIO.RISING)  # First push
+            while True:
+                if GPIO.event_detected(18):
+                       break
+            start_evaluation(timet,pulse)
+    except:
+        print("An error occured")

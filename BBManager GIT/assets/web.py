@@ -11,7 +11,7 @@ def myPID():
     mypid.write(pid)
     mypid.close()
 
-def statusERR(error):
+def statusERR(error,p):
     status= open("./logs/httpd_status.log","w")
     status.write("ERROR WebServer cannot start:",str(error))
     status.close()
@@ -28,7 +28,7 @@ def statusOFF():
 
 def start_webserver(host1,port1):
 
-    try:
+    #try:
         myPID() #Create PID file
         template_dir = os.path.abspath('./templates')
         static_dir=os.path.abspath('./static')
@@ -48,7 +48,7 @@ def start_webserver(host1,port1):
         @app.route('/api/bbstatus')
         def api_bbstatus():
             return bb_status()
-        @app.route('textpage')
+        @app.route('/textpage')
         def textpage():
             return render_template('textpage.html')
         @app.route('/api/startbb',methods=["GET","POST"])
@@ -72,8 +72,8 @@ def start_webserver(host1,port1):
             return "Door is opening"
         statusON()
         app.run(host=host1, port=port1) #RUN WEBSERVER
-    except Exception as e:
-        statusERR(e)
+   # except Exception as e:
+   #     statusERR(e,p)
 
 def stop_webserver():
     try:

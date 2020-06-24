@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash
-from bbmanager import bb_status
+from bbmanager import *
 import subprocess
 import os
 import signal
@@ -35,7 +35,7 @@ def start_webserver(host1,port1):
     def api_startbb():
         if request.method == "GET":
             data = bb_config()
-            api_stat = subprocess.Popen("python3" + " main.py " + str(2) + " " + str(data[TIME]) + " " + str(data[PULSE]),shell=True)  # RUN BBSERVER IN BG WIN
+            api_stat = subprocess.Popen("python3" + " main.py " + str(2) + " " + str(data[0]) + " " + str(data[1]),shell=True)  # RUN BBSERVER IN BG WIN
             return "BB Server is going to start"
         if request.method == "POST":
             timet = request.form['time']
@@ -46,6 +46,10 @@ def start_webserver(host1,port1):
     def api_stopbb():
         api_stat = subprocess.Popen("python3" + " main.py " + str(6),shell=True)  # RUN BBSERVER IN BG WIN
         return api_stat
+    @app.route('/api/opendoor')
+    def api_door():
+        api_stat = open_door()
+        return "Door is opening"
 
     app.run(host=host1, port=port1) #RUN WEBSERVER
 
@@ -67,9 +71,13 @@ def web_status():
         return "OFF"
 
 def bb_config():
-    with open('../config/bbsettings.config') as f:
-        data = {}
-        for line in f:
-            key, value = line.strip().split('=')
-            data[key] = value
-    return data
+    #with open('../config/bbsettings.config') as f:
+    #    data = {}
+    #    for line in f:
+    #        key, value = line.strip().split('=')
+    #        data[key] = value
+    #return data
+    f = open('../config/bbsettings.config')
+    lines = f.readlines()
+    f.close()
+    return lines

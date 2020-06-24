@@ -1,0 +1,5 @@
+f = open('bbsettings.config')
+lines = f.readlines()
+f.close()
+print (lines)
+print(lines[0])

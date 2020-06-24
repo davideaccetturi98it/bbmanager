@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
@@ -24,9 +24,14 @@
       <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Time:</td>
     </tr>
   <tr>
-      <td colspan="3"> <button type="submit" class="btn btn-outline-success"><b>Activate</b></button>
-          <button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>
-          <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>
+    <td colspan="3">
+        <form action="/api/startbb" method="get"><input type="submit" value="Activate" class="btn btn-outline-success name="Activate" id="frm1_submit"></form>
+        <!--<button type="submit" class="btn btn-outline-success" form="startbbnow" formmethod="post"><b>Activate</b></button>-->
+        <form action="/api/stopbb" method="get"><input type="submit" value="Deactivate" class="btn btn-outline-warning name="Deactivate" id="frm2_submit"></form>
+        <!--<button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>-->
+         <form action="/api/viewlogs" method="get"><input type="submit" value="View Logs" class="btn btn-outline-info name="Logs" id="frm3_submit"></form>
+         <!-- <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>-->
+        <form action="/api/opendoor" method="get"><input type="submit" value="Open the door" class="btn btn-outline-success name="OD" id="frm4_submit"></form>
     </td>
   </tr>
   </tbody>

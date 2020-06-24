@@ -79,6 +79,8 @@ def start_evaluation(timet,pulse):
 
 def open_door():
     print("Apro porta")
+    GPIO.setwarnings(False)  # Ignore warning for now
+    GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
     GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relais.
     GPIO.output(14, GPIO.LOW)  # Turn on Relais. (Open the door)
     time.sleep(1)

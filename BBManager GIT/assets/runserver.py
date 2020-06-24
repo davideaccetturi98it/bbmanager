@@ -7,7 +7,7 @@ import os
 #CREO IL FILE CHE INDICA I PARAMETRI RICHIESTI
 if int(sys.argv[1])==0:
     if os.name == 'nt':  # IF OS IS WINDOWS
-        print("Sorry, BB Server is only available for RPI")
+        print("Sorry, BB Server is only available for RPi.")
     else:
         start_server(str(sys.argv[2]),str(sys.argv[3])) #AVVIO IL SERVER CON I PARAMETRI INSERITI
 elif int(sys.argv[1])==1:

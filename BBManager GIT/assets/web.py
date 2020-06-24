@@ -48,7 +48,7 @@ def start_webserver(host1,port1):
         @app.route('/api/bbstatus')
         def api_bbstatus():
             return bb_status()
-        @app.route('/api/textpage')
+        @app.route('textpage')
         def textpage():
             return render_template('textpage.html')
         @app.route('/api/startbb',methods=["GET","POST"])

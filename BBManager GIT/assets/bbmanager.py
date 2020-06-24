@@ -14,7 +14,7 @@ def start_cli():
 
 
 def bb_status():
-    if os.path.exists('./logs/bbserver_status.log'):
+    if os.path.exists('./logs/server_pid.log'):
         return "ON"
     else:
         return "OFF"
@@ -29,7 +29,7 @@ def update_bbserver(newpulse,newtime):
 def start_server(pulse,time):
     def signal_handler(signal, frame):
         try:
-            print("BB Server has been closed!")
+            print("BBServer is being closed")
         finally:
             sys.exit(0)
     status=bb_status()
@@ -37,10 +37,9 @@ def start_server(pulse,time):
         #status_start(pulse, time)
         signal.signal(signal.SIGINT, signal_handler)
         myPID()
-        #RPI CODE
         listen_socket(pulse,time)
     else:
-        return "Server is already RUNNING"
+        print("BBServer is already RUNNING")
 
 def stop_server(): # RIMUOVO IL FILE DI STATO
     try:
@@ -49,17 +48,30 @@ def stop_server(): # RIMUOVO IL FILE DI STATO
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
         os.remove("./logs/server_pid.log")
-        os.remove("./logs/bbserver_status.log")
+        statusOFF()
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
 
-def status_start(pulse,time): # CREO IL FILE DI STATO
-    f = open("./logs/bbserverver_status.log", "w")
-    f.write(pulse + '\n' + time)
-    f.close()
+def statusERR(error,p):
+    status= open("./logs/bbserverver_status.log","w")
+    status.write("ERROR BBServer cannot start:",str(error))
+    status.close()
 
-def read_logs(last):
-    f = open("lastcall.txt","r")
+def statusON():
+    status= open("./logs/bbserverver_status.log","w")
+    status.write("BBServer is ON")
+    status.close()
+
+def statusOFF():
+    status = open("./logs/bbserverver_status.log", "w")
+    status.write("BBServer is OFF")
+    status.close()
+
+def read_logs():
+    f = open("./logs/bb_guests_confirmed.log",'r')
+    logs=f.read()
+    logs=logs.replace('\n','<br/>')
+    return logs
 
 def myPID():
     mypid = open("./logs/server_pid.log", "w")
@@ -100,9 +112,7 @@ def open_door():
 def listen_socket(pulse,timet):
 
     try:
-        file=open("./logs/bbserver_status.log","w")
-        file.write("ON")
-        file.close()
+        statusON()
         while True:
             global actualPULSE
             actualPULSE = 0
@@ -115,4 +125,4 @@ def listen_socket(pulse,timet):
                        break
             start_evaluation(timet,pulse)
     except Exception as e:
-        print("An error occured:",e)
+        statusERR(e)

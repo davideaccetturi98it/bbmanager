@@ -16,14 +16,14 @@ try:
             log.flush()
             subprocess.Popen("python" + " ./assets/runwebserver.py 0 " + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG WIN
             time.sleep(5)
-            if os.path.exists('./logs/httpd_status.log') == True:  # CHECK IF WEB SERVER IS STARTING
+            if os.path.exists('./logs/httpd_pid.log') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("Web server is starting")  # PRINT OK
         elif os.name == 'posix':
             log = open("./logs/bg_errors_ws.log", "w") #KEEP IN MIND WHICH IS MY PID
             log.flush
             subprocess.Popen("/usr/bin/python3 " + "./assets/runwebserver.py " + str(0) + " " + str(sys.argv[2]) + " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN WEBSERVER IN BG UNIX
             time.sleep(5)
-            if os.path.exists('./logs/httpd_status.log') == True:  # CHECK IF WEB SERVER IS STARTING
+            if os.path.exists('./logs/httpd_pid.log') == True:  # CHECK IF WEB SERVER IS STARTING
                 print("Web server is starting")  # PRINT OK
 
     elif int(sys.argv[1]) == 2:
@@ -31,7 +31,7 @@ try:
             if os.name == 'posix':
                 subprocess.Popen("python3"+" ./assets/runserver.py "+ str(0) + " " +str(sys.argv[2])+ " " + str(sys.argv[3]),shell=True,close_fds=True)  # RUN BBSERVER IN BG WIN
                 time.sleep(5)
-                if os.path.exists('./logs/bb_status.log') == True: #CHECK IF BB SERVER IS STARTING
+                if os.path.exists('./logs/server_pid.log') == True: #CHECK IF BB SERVER IS STARTING
                     print("BB server is starting") #PRINT OK
             else:
                 print("OS Type is not support: USE RPI!")
@@ -46,14 +46,14 @@ try:
             subprocess.Popen("python ./assets/runwebserver.py 1 ", shell=True)  # DISABLE WEBSERVER IN BG WIN
             log.close()
             time.sleep(5)
-            if os.path.exists('./logs/httpd_status.log') == False:  # CHECK IF WEB SERVER IS STOPPED
+            if os.path.exists('./logs/httpd_pid.log') == False:  # CHECK IF WEB SERVER IS STOPPED
                 print("WebServer has been shut down gracefully")  # PRINT OK
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w")  # TRACE ERRORS
             subprocess.Popen("/usr/bin/python3 " + "./assets/runwebserver.py 1",shell=True)  # DISABLE WEBSERVER IN BG UNIX
             log.close()
             time.sleep(5)
-            if os.path.exists('./logs/httpd_status.log') == False:  # CHECK IF WEB SERVER IS STARTING
+            if os.path.exists('./logs/httpd_pid.log') == False:  # CHECK IF WEB SERVER IS STARTING
                 print("WebServer has been shut down gracefully")  # PRINT OK
     elif int(sys.argv[1]) == 6:
         ##DISABLE BB SERVER
@@ -62,7 +62,7 @@ try:
             subprocess.Popen("python ./assets/runserver.py 1 ", shell=True)  # DISABLE WEBSERVER IN BG WIN
             log.close()
             time.sleep(5)
-            if os.path.exists('./logs/server_status.log') == False:  # CHECK IF WEB SERVER IS STOPPED
+            if os.path.exists('./logs/server_pid.log') == False:  # CHECK IF WEB SERVER IS STOPPED
                 print("BBServer has been shut down gracefully")  # PRINT OK
         elif os.name == 'posix':
             log = open("./logs/bbserver_errors.log", "w")  # TRACE ERRORS
@@ -70,7 +70,7 @@ try:
                 "/usr/bin/python3 " + "./assets/runserver.py 1",shell=True)  # DISABLE WEBSERVER IN BG UNIX
             log.close()
             time.sleep(5)
-            if os.path.exists('./logs/server_status.txt') == False:  # CHECK IF WEB SERVER IS STARTING
+            if os.path.exists('./logs/server_pid.txt') == False:  # CHECK IF WEB SERVER IS STARTING
                 print("BBServer has been shut down gracefully")  # PRINT OK
 
 except IndexError:

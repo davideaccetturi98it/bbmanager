@@ -11,48 +11,69 @@ def myPID():
     mypid.write(pid)
     mypid.close()
 
-def start_webserver(host1,port1):
-    myPID() #Create PID file
-    template_dir = os.path.abspath('./templates')
-    static_dir=os.path.abspath('./static')
-    app = Flask(__name__, template_folder=template_dir,static_folder=static_dir)
-    @app.route("/")
-    def main():
-        return render_template('index.html')
-    @app.route('/manager')
-    def manager():
-        return render_template('manager.html',status=bb_status())
-    @app.route('/status')
-    def status():
-        return render_template('status.html')
-    @app.route('/api/webstatus')
-    def api_webstatus():
-        return web_status()
-    @app.route('/api/bbstatus')
-    def api_bbstatus():
-        return bb_status()
-    @app.route('/api/startbb',methods=["GET","POST"])
-    def api_startbb():
-        if request.method == "GET":
-            data = bb_config()
-            print(data[0])
-            api_stat = subprocess.Popen("python3" + " ./main.py " + str(2) + " " + str(data[0]) + " " + str(data[1]),shell=True)  # RUN BBSERVER IN BG WIN
-            return "BB Server is going to start"
-        if request.method == "POST":
-            timet = request.form['time']
-            pulse = request.form['pulse']
-            api_stat=subprocess.Popen("python3" + " ./main.py " + str(2) + " " + str(timet) + " " + str(pulse),shell=True)  # RUN BBSERVER IN BG WIN
-            return "BB Server is going to restart with the new parameters"
-    @app.route('/api/stopbb')
-    def api_stopbb():
-        api_stat = subprocess.Popen("python3" + " ./main.py " + str(6),shell=True)  # RUN BBSERVER IN BG WIN
-        return "BB Server is going to shut down. Thanks for using our product"
-    @app.route('/api/opendoor')
-    def api_door():
-        api_stat = open_door()
-        return "Door is opening"
+def statusERR(error):
+    status= open("./logs/httpd_status.log","w")
+    status.write("ERROR WebServer cannot start:",str(error))
+    status.close()
 
-    app.run(host=host1, port=port1) #RUN WEBSERVER
+def statusON():
+    status= open("./logs/httpd_status.log","w")
+    status.write("Webserver is ON")
+    status.close()
+
+def statusOFF():
+    status = open("./logs/httpd_status.log", "w")
+    status.write("Webserver is OFF")
+    status.close()
+
+def start_webserver(host1,port1):
+
+    try:
+        myPID() #Create PID file
+        template_dir = os.path.abspath('./templates')
+        static_dir=os.path.abspath('./static')
+        app = Flask(__name__, template_folder=template_dir,static_folder=static_dir)
+        @app.route("/")
+        def main():
+            return render_template('index.html')
+        @app.route('/manager')
+        def manager():
+            return render_template('manager.html',status=bb_status())
+        @app.route('/status')
+        def status():
+            return render_template('status.html')
+        @app.route('/api/webstatus')
+        def api_webstatus():
+            return web_status()
+        @app.route('/api/bbstatus')
+        def api_bbstatus():
+            return bb_status()
+        @app.route('/api/textpage')
+        def textpage():
+            return render_template('textpage.html')
+        @app.route('/api/startbb',methods=["GET","POST"])
+        def api_startbb():
+            if request.method == "GET":
+                data = bb_config()
+                api_stat = subprocess.Popen("python3" + " ./main.py " + str(2) + " " + str(data[0]) + " " + str(data[1]),shell=True)  # RUN BBSERVER IN BG WIN
+                return "BB Server is going to start"
+            if request.method == "POST":
+                timet = request.form['time']
+                pulse = request.form['pulse']
+                api_stat=subprocess.Popen("python3" + " ./main.py " + str(2) + " " + str(timet) + " " + str(pulse),shell=True)  # RUN BBSERVER IN BG WIN
+                return "BB Server is going to restart with the new parameters"
+        @app.route('/api/stopbb')
+        def api_stopbb():
+            api_stat = subprocess.Popen("python3" + " ./main.py " + str(6),shell=True)  # RUN BBSERVER IN BG WIN
+            return "BB Server is going to shut down. Thanks for using our product"
+        @app.route('/api/opendoor')
+        def api_door():
+            api_stat = open_door()
+            return "Door is opening"
+        statusON()
+        app.run(host=host1, port=port1) #RUN WEBSERVER
+    except Exception as e:
+        statusERR(e)
 
 def stop_webserver():
     try:
@@ -61,7 +82,7 @@ def stop_webserver():
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
         os.remove("./logs/httpd_pid.log")
-        os.remove("./logs/httpd_status.log")
+        statusOFF()
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
 
@@ -81,8 +102,8 @@ def bb_config():
     f = open('./config/bbsettings.config')
     lines = f.readlines()
     lines[0] = lines[0].rstrip("\n")
-    lines[0] = lines[0].rstrip("PULSE=")
+    lines[0] = lines[0].replace('PULSE=','')
     lines[1] = lines[1].rstrip("\n")
-    lines[1] = lines[1].rstrip("TIME=")
+    lines[1] = lines[1].replace('TIME=','')
     f.close()
     return lines

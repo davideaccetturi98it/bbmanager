@@ -16,7 +16,7 @@ def bb_status():
     if os.path.exists('./logs/bbserver_status.log'):
         return "ON"
     else:
-        return "ON"
+        return "OFF"
 
 # interrompe l’esecuzione se da tastiera arriva la sequenza (CTRL + C)
 
@@ -26,21 +26,24 @@ def start_server(pulse,time):
             print("BB Server has been closed!")
         finally:
             sys.exit(0)
-    print("BB Server is starting")
-    #status_start(pulse, time)
-    signal.signal(signal.SIGINT, signal_handler)
-    myPID()
-    #RPI CODE
-    listen_socket(pulse,time)
+    status=bb_status()
+    if status=='OFF':
+        #status_start(pulse, time)
+        signal.signal(signal.SIGINT, signal_handler)
+        myPID()
+        #RPI CODE
+        listen_socket(pulse,time)
+    else:
+        return "Server is already RUNNING"
 
 def stop_server(): # RIMUOVO IL FILE DI STATO
     try:
-        pid = open("./log/server_pid.log", "r")
+        pid = open("./logs/server_pid.log", "r")
         mypid=pid.read()
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
-        os.remove("./log/server_pid.log")
-        os.remove("./log/bbserver_status.log")
+        os.remove("./logs/server_pid.log")
+        os.remove("./logs/bbserver_status.log")
     except FileNotFoundError:
         print("Nessun server in esecuzione!")
 
@@ -103,5 +106,5 @@ def listen_socket(pulse,timet):
                 if GPIO.event_detected(18):
                        break
             start_evaluation(timet,pulse)
-    except:
-        print("An error occured")
+    except Exception as e:
+        print("An error occured:",e)

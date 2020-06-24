@@ -80,5 +80,6 @@ def bb_config():
     #return data
     f = open('../config/bbsettings.config')
     lines = f.readlines()
+    lines[0] = lines[0].rstrip("\n")
     f.close()
     return lines

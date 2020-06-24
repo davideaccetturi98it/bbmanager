@@ -18,25 +18,22 @@
     </tr>
     <tr>
       <td  style="vertical-align: middle" rowspan="2">Current Settings</td>
-      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Number of impulses:</td>
+      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Number of impulses: {{ pulse }} </td>
     </tr>
     <tr>
-      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Time:</td>
+      <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2">Time: {{ time }}</td>
     </tr>
     <tr>
       <td style="text-align: right">
         <form action="/api/startbb" method="get"><input type="submit" value="Activate" class="btn btn-outline-success name="Activate" id="frm1_submit"></form>
-        <!--<button type="submit" class="btn btn-outline-success" form="startbbnow" formmethod="post"><b>Activate</b></button>-->
       </td>
       <td style="text-align: left">
         <form action="/api/stopbb" method="get"><input type="submit" value="Deactivate" class="btn btn-outline-warning name="Deactivate" id="frm2_submit"></form>
-        <!--<button type="submit" class="btn btn-outline-warning"><b>Deactivate</b></button>-->
       </td>
     </tr>
     <tr>
       <td style="text-align: right">
        <form action="/api/viewlogs" method="get"><input type="submit" value="View Logs" class="btn btn-outline-info name="Logs" id="frm3_submit"></form>
-         <!-- <button type="button" class="btn btn-outline-info"><b>View Logs</b></button>-->
       </td>
       <td style="text-align: left">
         <form action="/api/opendoor" method="get"><input type="submit" value="Open the door" class="btn btn-outline-success name="OD" id="frm4_submit"></form>
@@ -64,7 +61,7 @@
   </tr>
  </form>
   <tr>
-      <td style="text-align: center" colspan="3"><button type="submit" class="btn btn-outline-primary" form="startbb"><b>Submit</b></button>
+      <td style="text-align: center" colspan="3"><button type="submit" class="btn btn-outline-primary" form="startbb"><b>Submit and Reload</b></button>
       </td>
   </tr>
  </tbody>

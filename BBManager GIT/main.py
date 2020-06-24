@@ -47,14 +47,14 @@ try:
             log.close()
             time.sleep(5)
             if os.path.exists('./logs/httpd_status.log') == False:  # CHECK IF WEB SERVER IS STOPPED
-                print("WebServer is shutting down gracefully")  # PRINT OK
+                print("WebServer has been shut down gracefully")  # PRINT OK
         elif os.name == 'posix':
             log = open("bgerrors.txt", "w")  # TRACE ERRORS
             subprocess.Popen("/usr/bin/python3 " + "./assets/runwebserver.py 1",shell=True)  # DISABLE WEBSERVER IN BG UNIX
             log.close()
             time.sleep(5)
             if os.path.exists('./logs/httpd_status.log') == False:  # CHECK IF WEB SERVER IS STARTING
-                print("WebServer is shutting down gracefully")  # PRINT OK
+                print("WebServer has been shut down gracefully")  # PRINT OK
     elif int(sys.argv[1]) == 6:
         ##DISABLE BB SERVER
         if os.name == 'nt':  # IF OS IS WINDOWS
@@ -63,7 +63,7 @@ try:
             log.close()
             time.sleep(5)
             if os.path.exists('./logs/server_status.log') == False:  # CHECK IF WEB SERVER IS STOPPED
-                print("BBServer is shutting down gracefully")  # PRINT OK
+                print("BBServer has been shut down gracefully")  # PRINT OK
         elif os.name == 'posix':
             log = open("./logs/bbserver_errors.log", "w")  # TRACE ERRORS
             subprocess.Popen(
@@ -71,7 +71,7 @@ try:
             log.close()
             time.sleep(5)
             if os.path.exists('./logs/server_status.txt') == False:  # CHECK IF WEB SERVER IS STARTING
-                print("BBServer is shutting down gracefully")  # PRINT OK
+                print("BBServer has been shut down gracefully")  # PRINT OK
 
 except IndexError:
     print("Please, run this tool with the following argument :\n1-Start WebServer (HOST and PORT must be sent as argument)\n2-Start BBServer (PULSE and TIME must be sent as argument\n3-Start BB Cli\n4-Show Services Status\n5-Disable Web Server\n6-Disable BB Server")

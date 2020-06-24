@@ -81,5 +81,8 @@ def bb_config():
     f = open('./config/bbsettings.config')
     lines = f.readlines()
     lines[0] = lines[0].rstrip("\n")
+    lines[0] = lines[0].rstrip("PULSE=")
+    lines[1] = lines[1].rstrip("\n")
+    lines[1] = lines[1].rstrip("TIME=")
     f.close()
     return lines

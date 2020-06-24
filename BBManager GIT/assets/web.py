@@ -35,6 +35,7 @@ def start_webserver(host1,port1):
     def api_startbb():
         if request.method == "GET":
             data = bb_config()
+            print(data[0])
             api_stat = subprocess.Popen("python3" + " main.py " + str(2) + " " + str(data[0]) + " " + str(data[1]),shell=True)  # RUN BBSERVER IN BG WIN
             return "BB Server is going to start"
         if request.method == "POST":

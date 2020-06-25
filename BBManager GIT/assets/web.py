@@ -1,3 +1,9 @@
+#######
+#@2020 Accetturi Davide - Caterina Gambetti
+#This softwer is released under GPL license. The code is OpenSource
+#Main Program - It calls other functions from assets.
+#######
+
 from flask import Flask,render_template,request,flash
 from bbmanager import *
 import subprocess
@@ -100,12 +106,6 @@ def web_status():
         return "OFF"
 
 def bb_config():
-    #with open('../config/bbsettings.config') as f:
-    #    data = {}
-    #    for line in f:
-    #        key, value = line.strip().split('=')
-    #        data[key] = value
-    #return data
     f = open('./config/bbsettings.config')
     lines = f.readlines()
     lines[0] = lines[0].rstrip("\n")

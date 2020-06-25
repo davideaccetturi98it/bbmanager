@@ -1,3 +1,9 @@
+#######
+#@2020 Accetturi Davide - Caterina Gambetti
+#This softwer is released under GPL license. The code is OpenSource
+#Main Program - It calls other functions from assets.
+#######
+
 import sys,signal
 import os
 import time

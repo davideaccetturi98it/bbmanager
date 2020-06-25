@@ -20,8 +20,8 @@ def start_cli():
         if choice==str(1):
             stop_server()
         elif choice==str(2):
-            pulse=input('Insert the new number of pulses:')
-            time=input('Insert the new time for analyze:')
+            pulse=input('Insert the new number of pulses: ')
+            time=input('Insert the new time to analyze: ')
             update_bbserver(pulse,time)
             print("The new config has been submitted. Pleas stop and start the BBServer again")
         elif choice==str(3):
@@ -70,7 +70,7 @@ def stop_server(): # RIMUOVO IL FILE DI STATO
 
 def statusERR(error,p):
     status= open("./logs/bbserverver_status.log","w")
-    status.write("ERROR BBServer cannot start:",str(error))
+    status.write("ERROR: BBServer cannot start:",str(error))
     status.close()
 
 def statusON():
@@ -97,7 +97,7 @@ def myPID():
     mypid.close()
 
 def add_pulse(control):
-    print("Pulsante Premuto") ##DEBUG
+    print("Button pressed") ##DEBUG
     global actualPULSE
     actualPULSE=actualPULSE+1
 
@@ -110,18 +110,18 @@ def start_evaluation(timet,pulse):
             break
     GPIO.remove_event_detect(18)
     global actualPULSE
-    print("Numero pulsazioni:", actualPULSE)
+    print("Number of pulses: :", actualPULSE)
     if actualPULSE!=pulse:
         open_door()
 
 def open_door():
     log=open("./logs/bb_guests_confirmed.log",'a')
-    log.write("A new guest has done the checkIN successifuly on "+str(datetime.now())+"\n")
+    log.write("A new guest has done the checkIN successfully on "+str(datetime.now())+"\n")
     log.close()
     GPIO.setwarnings(False)  # Ignore warning for now
     GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
-    GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relais.
-    GPIO.output(14, GPIO.LOW)  # Turn on Relais. (Open the door)
+    GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relay.
+    GPIO.output(14, GPIO.LOW)  # Turn on Relay. (Open the door)
     time.sleep(1)
     send_email()
     GPIO.cleanup()
@@ -154,7 +154,7 @@ def send_email():
     owner_address ="davide@adconsulting.tech"
 
 ##MESSAGE PART
-    message="A new guest has been checked in now! "+ str(datetime.now())
+    message="A new guest has been checked-in now! "+ str(datetime.now())
 
 ##SENDING MAIL
     mail = smtplib.SMTP(host=hostname, port=port)
@@ -163,7 +163,7 @@ def send_email():
     msg = MIMEMultipart()  # create a message
     msg['From'] = "ADConsulting Domotic services "+from_address
     msg['To'] = owner_address
-    msg['Subject'] = "A new guest has correctly done the check in procedure!"
+    msg['Subject'] = "A new guest has done correctly the check-in procedure!"
     msg.attach(MIMEText(message, 'plain'))
     mail.send_message(msg)
     del msg

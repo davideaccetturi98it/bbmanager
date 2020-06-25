@@ -25,10 +25,12 @@ press 5 to go back to main menu
 
  -web.py
 Thanks to Flask, the Web Server executes python code including it in html page:
-when a button is pressd, Javascript calls functions from main.py with the data required.
+when a button is pressed, Javascript calls functions from main.py with the data required.
 The function ACTIVATE called from the web page reads a local txt file and activates the python BBServer.
-When the user chooses to change the number of impulses and/ore the time, the local txt file is updated.
+When the user chooses to change the number of impulses and/or the time, the local txt file is updated.
 Using local txt files is necessary due to the fact that a database is not present.
+The DEACTIVATE button closes the python BBServer, updating the status OFF in the web page if before the server was ON
+
 
  --bbmanager.py contains the definition of functions used from the CLI.
 

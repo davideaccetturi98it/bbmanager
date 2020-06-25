@@ -91,7 +91,7 @@ def stop_webserver():
         os.remove("./logs/httpd_pid.log")
         statusOFF()
     except FileNotFoundError:
-        print("Nessun server in esecuzione!")
+        print("No server in execution!")
 
 def web_status():
     if os.path.exists('./logs/httpd_status.log')==True:

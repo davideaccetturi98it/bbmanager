@@ -152,12 +152,12 @@ def listen_socket(pulse,timet):
 def send_email(): #send email function
 
 ##CONFIG PART
-    hostname = "smtp.sendgrid.com"
-    username = "apikey"
-    password = "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"
-    port = "587"
-    from_address = "<domotic@adconsulting.tech>"
-    owner_address ="davide@adconsulting.tech"
+    hostname = "provider hostname"
+    username = "provider username"
+    password = "provider password"
+    port = "provider port"
+    from_address = "<from user address>"
+    owner_address ="delivery address"
 
 ##MESSAGE PART
     message="A new guest has been checked-in now! "+ str(datetime.now())
@@ -167,7 +167,7 @@ def send_email(): #send email function
     mail.starttls()
     mail.login(username,password)
     msg = MIMEMultipart()  # Prepare message
-    msg['From'] = "ADConsulting Domotic services "+from_address
+    msg['From'] = "from username "+from_address
     msg['To'] = owner_address
     msg['Subject'] = "A new guest has done correctly the check-in procedure!"
     msg.attach(MIMEText(message, 'plain'))

@@ -43,8 +43,8 @@ def start_webserver(host1,port1):
             return render_template('manager.html',status=bb_status(),pulse=data[0],time=data[1])
         @app.route('/manager/logs')
         def logs():
-            return read_logs()
-            #return render_template('logs.html',displyLogs=read_logs())
+            #return read_logs()
+            return render_template('logs.html',displyLogs=read_logs())
         @app.route('/api/webstatus')
         def api_webstatus():
             return web_status()

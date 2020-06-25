@@ -1,7 +1,15 @@
 ELABORATO PER ESAME PROGRAMMAZIONE DI RETI - TRACCIA 2
 Management of a Bed and Breakfast using ..
 
-- main.py
+REQUIREMENTS
+
+Flask library
+You need to install flask in order to use the WebGUI manager.
+USE: pip install flask
+
+DESCRIPTION:
+
+- Main
 press 1 to run the Web Server as a background process
 press 2 to run the BB Server which is listening on local ports (both in Windows and Linux OS)
 press 3 to run the maintenance program from command line (CLI) for BB Server
@@ -13,18 +21,17 @@ press 3 to read the logs about who entered and left the Bed and Breakfast
 press 4 to delete registers
 press 5 to go back to main menu
 
-- functions implemented in WebGUI
-
-
 - set of .py files containing functions are located in assist
 
  -web.py
-The lib used is Flask. By it, the Web Server executes python code and embed the results in html pages.
-We have implemented two types of api set one based on GET requests and another that can manage PUT requests.
-The python api are used by the manager to obtain data and execute actions.
-All of these api work with the server data and can be overridden by manual CLI shell.
-We have chosen to store all persistent data using local filesystem because we don't have a relational DB.
- -bbmanager.py contains the definition of functions used from the CLI.
+Thanks to Flask, the Web Server executes python code including it in html page:
+when a button is pressd, Javascript calls functions from main.py with the data required.
+The function ACTIVATE called from the web page reads a local txt file and activates the python BBServer.
+When the user chooses to change the number of impulses and/ore the time, the local txt file is updated.
+Using local txt files is necessary due to the fact that a database is not present.
+
+ --bbmanager.py contains the definition of functions used from the CLI.
 
 CLI manipulates files form command line
 differing from the Web Server which reads only from the fold 'static'.
+

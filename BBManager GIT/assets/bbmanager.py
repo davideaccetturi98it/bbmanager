@@ -2,6 +2,11 @@ import sys,signal
 import os
 import time
 from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from datetime import datetime
+import smtplib
+
 
 try:
     import RPi.GPIO as GPIO  # Import Raspberry Pi GPIO library
@@ -9,9 +14,21 @@ except ModuleNotFoundError:
     print("BB Server is only available on RPI based Systems")
 
 def start_cli():
-    print("Welcome to BB Manager CLI\nPress 1 if you want disable the BB Server\nPress 2 if you want change the timeout\nPress 3 if you want see the logs\nPress 4 if you want close the CLI")
-  #  while True
-
+    while True:
+        print("Welcome to BB Manager CLI\nPress 1 if you want disable the BB Server\nPress 2 if you want change the timeout\nPress 3 if you want see the logs\nPress 0 if you want close the CLI")
+        choice = input('Choice: ')
+        if choice==str(1):
+            stop_server()
+        elif choice==str(2):
+            pulse=input('Insert the new number of pulses:')
+            time=input('Insert the new time for analyze:')
+            update_bbserver(pulse,time)
+            print("The new config has been submitted. Pleas stop and start the BBServer again")
+        elif choice==str(3):
+            logs=read_logs()
+            print(logs)
+        elif choice==str(0):
+            break
 
 def bb_status():
     if os.path.exists('./logs/server_pid.log'):
@@ -34,7 +51,6 @@ def start_server(pulse,time):
             sys.exit(0)
     status=bb_status()
     if status=='OFF':
-        #status_start(pulse, time)
         signal.signal(signal.SIGINT, signal_handler)
         myPID()
         listen_socket(pulse,time)
@@ -50,7 +66,7 @@ def stop_server(): # RIMUOVO IL FILE DI STATO
         os.remove("./logs/server_pid.log")
         statusOFF()
     except FileNotFoundError:
-        print("Nessun server in esecuzione!")
+        print("BBServer is not running!")
 
 def statusERR(error,p):
     status= open("./logs/bbserverver_status.log","w")
@@ -70,7 +86,8 @@ def statusOFF():
 def read_logs():
     f = open("./logs/bb_guests_confirmed.log",'r')
     logs=f.read()
-    logs=logs.replace('\n','<br/>')
+    logs=logs.replace('\n','</td></tr>')
+    logs = logs.replace('A', '<tr><td>A')
     return logs
 
 def myPID():
@@ -85,7 +102,6 @@ def add_pulse(control):
     actualPULSE=actualPULSE+1
 
 def start_evaluation(timet,pulse):
-
     GPIO.remove_event_detect(18)
     GPIO.add_event_detect(18, GPIO.RISING, callback=add_pulse)  # Next push
     timeout=time.time()+int(timet)
@@ -100,17 +116,17 @@ def start_evaluation(timet,pulse):
 
 def open_door():
     log=open("./logs/bb_guests_confirmed.log",'a')
-    log.write(str(datetime.now())+" A new guest has done the checkIN successifuly\n")
+    log.write("A new guest has done the checkIN successifuly on "+str(datetime.now())+"\n")
     log.close()
     GPIO.setwarnings(False)  # Ignore warning for now
     GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
     GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relais.
     GPIO.output(14, GPIO.LOW)  # Turn on Relais. (Open the door)
     time.sleep(1)
+    send_email()
     GPIO.cleanup()
 
 def listen_socket(pulse,timet):
-
     try:
         statusON()
         while True:
@@ -126,3 +142,30 @@ def listen_socket(pulse,timet):
             start_evaluation(timet,pulse)
     except Exception as e:
         statusERR(e)
+
+def send_email():
+
+##CONFIG PART
+    hostname = "smtp.sendgrid.com"
+    username = "apikey"
+    password = "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"
+    port = "587"
+    from_address = "<domotic@adconsulting.tech>"
+    owner_address ="davide@adconsulting.tech"
+
+##MESSAGE PART
+    message="A new guest has been checked in now! "+ str(datetime.now())
+
+##SENDING MAIL
+    mail = smtplib.SMTP(host=hostname, port=port)
+    mail.starttls()
+    mail.login(username,password)
+    msg = MIMEMultipart()  # create a message
+    msg['From'] = "ADConsulting Domotic services "+from_address
+    msg['To'] = owner_address
+    msg['Subject'] = "A new guest has correctly done the check in procedure!"
+    msg.attach(MIMEText(message, 'plain'))
+    mail.send_message(msg)
+    del msg
+    mail.quit()
+

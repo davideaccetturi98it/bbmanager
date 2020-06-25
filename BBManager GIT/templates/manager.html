@@ -9,6 +9,21 @@
 <h2>BB Manager <br>Welcome to the Bed&Breakfast manager!</h2>
 <h5 style="color: #19ABC2">You can see the current parameters below or change them as you prefer</h5> <br>
 
+<div class="container" style="min-height:100% width:80%">
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+		  <div class="alert alert-warning alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			{{message}}
+		  </div>
+		{% endfor %}
+	  {% endif %}
+	{% endwith %}
+
+	{% block body %}{% endblock %}
+	</div>
+
 <!-- First table with the current status and settings -->
 <table class="table" style="background-color: #FCF3CF; width: 60%; margin-right: 20%; margin-left: 20%; border-style: solid; border-color: #19ABC2">
   <tbody>
@@ -51,12 +66,12 @@
       <td style="text-align: center; vertical-align: middle" rowspan="2"><b>Change settings</b>
       </td>
       <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2"><label for="pulse">Number of impulses:</label>
-          <input type="number" id="pulse" name="pulse">
+          <input type="number" id="pulse" name="pulse" required>
       </td>
   </tr>
   <tr>
       <td style="text-align: left; border-right-style: solid; border-right-color: #19ABC2"><label for="time">Time:</label>
-          <input type="number" id="time" name="time">
+          <input type="number" id="time" name="time" required>
       </td>
   </tr>
  </form>
@@ -69,11 +84,11 @@
 
 
 <!-- Button with the reference to Index page -->
- <a href="/"><button class="btn btn-primary" type="submit"><b>Go back HOME</b></button></a>
+ <a href="/"><button class="btn btn-primary" type="submit"><b>Go back home</b></button></a>
 <br><br><br>
 <!-- Footer with copyright -->
 <footer class="page-footer font-small blue fixed-bottom">
-  <div class="footer-copyright text-center py-1">© 2020 Copyright</div>
+  <div class="footer-copyright text-center py-1">© 2020 Copyright Accetturi - Gambetti</div>
 </footer>
 
 

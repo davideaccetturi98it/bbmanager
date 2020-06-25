@@ -1,7 +1,7 @@
 #######
 #@2020 Accetturi Davide - Caterina Gambetti
-#This softwer is released under GPL license. The code is OpenSource
-#Main Program - It calls other functions from assets.
+#This softwer is released under GPL license without any guarantee. The code is OpenSource
+#BB Manager Program - This program contains all the functions to manage the server
 #######
 
 import sys,signal
@@ -19,7 +19,7 @@ try:
 except ModuleNotFoundError:
     print("BB Server is only available on RPI based Systems")
 
-def start_cli():
+def start_cli(): #Function to manage the status
     while True:
         print("Welcome to BB Manager CLI\nPress 1 if you want disable the BB Server\nPress 2 if you want change the timeout\nPress 3 if you want see the logs\nPress 0 if you want close the CLI")
         choice = input('Choice: ')
@@ -31,13 +31,13 @@ def start_cli():
             update_bbserver(pulse,time)
             print("The new config has been submitted. Pleas stop and start the BBServer again")
         elif choice==str(3):
-            logs=read_logs()
+            logs=read_logs() #use local fs files to store the successifull attempt
             print(logs)
         elif choice==str(0):
             break
 
 def bb_status():
-    if os.path.exists('./logs/server_pid.log'):
+    if os.path.exists('./logs/server_pid.log'): #read if file exists
         return "ON"
     else:
         return "OFF"
@@ -45,79 +45,79 @@ def bb_status():
 # interrompe l’esecuzione se da tastiera arriva la sequenza (CTRL + C)
 
 def update_bbserver(newpulse,newtime):
-    file=open('./config/bbsettings.config','w')
+    file=open('./config/bbsettings.config','w') #update the local variables file
     file.write("PULSE="+str(newpulse)+"\n"+"TIME="+str(newtime))
     file.close()
 
 def start_server(pulse,time):
-    def signal_handler(signal, frame):
+    def signal_handler(signal, frame): #define the sigterm signal
         try:
             print("BBServer is being closed")
         finally:
             sys.exit(0)
-    status=bb_status()
-    if status=='OFF':
+    status=bb_status() #update status
+    if status=='OFF': #check if is already running, in case print and abort
         signal.signal(signal.SIGINT, signal_handler)
         myPID()
         listen_socket(pulse,time)
     else:
         print("BBServer is already RUNNING")
 
-def stop_server(): # RIMUOVO IL FILE DI STATO
+def stop_server(): #send sigterm and update log files
     try:
         pid = open("./logs/server_pid.log", "r")
         mypid=pid.read()
         pid.close()
         os.kill(int(mypid), signal.SIGINT)
         os.remove("./logs/server_pid.log")
-        statusOFF()
-    except FileNotFoundError:
+        statusOFF() #set status off
+    except FileNotFoundError: #in case no bbserver running, abort.
         print("BBServer is not running!")
 
-def statusERR(error,p):
+def statusERR(error,p): #update bb logs with the exception
     status= open("./logs/bbserverver_status.log","w")
     status.write("ERROR: BBServer cannot start:",str(error))
     status.close()
 
-def statusON():
+def statusON(): ##update bb logs with on status
     status= open("./logs/bbserverver_status.log","w")
     status.write("BBServer is ON")
     status.close()
 
-def statusOFF():
+def statusOFF(): ##update bb logs with off status
     status = open("./logs/bbserverver_status.log", "w")
     status.write("BBServer is OFF")
     status.close()
 
-def read_logs():
+def read_logs(): #read logs function and manipulate it for html views
     f = open("./logs/bb_guests_confirmed.log",'r')
     logs=f.read()
     logs=logs.replace('\n','</td></tr>')
     logs = logs.replace('A', '<tr><td>A')
     return logs
 
-def myPID():
+def myPID(): #function to store app PID. Necessary to kill it when is in BG
     mypid = open("./logs/server_pid.log", "w")
     pid = str(os.getpid())
     mypid.write(pid)
     mypid.close()
 
-def add_pulse(control):
+def add_pulse(control): #improve the pulse count in before timeout
     print("Button pressed") ##DEBUG
     global actualPULSE
     actualPULSE=actualPULSE+1
 
-def start_evaluation(timet,pulse):
-    GPIO.remove_event_detect(18)
-    GPIO.add_event_detect(18, GPIO.RISING, callback=add_pulse)  # Next push
-    timeout=time.time()+int(timet)
-    while True:
+def start_evaluation(timet,pulse): #button has been pressed ONCE. Now the countdown has been started
+    GPIO.remove_event_detect(18) #clean the event detection
+    GPIO.add_event_detect(18, GPIO.RISING, callback=add_pulse)  # start event detection
+    timeout=time.time()+int(timet) #set timeout
+    while True: #start timeout
         if time.time()>=timeout:
             break
-    GPIO.remove_event_detect(18)
+    GPIO.remove_event_detect(18) #stop thread
     global actualPULSE
     print("Number of pulses: :", actualPULSE)
-    if actualPULSE!=pulse:
+    if actualPULSE!=pulse: #if real pulses matches, open the door and keep back in listen state
         open_door()
 
 def open_door():
@@ -128,9 +128,9 @@ def open_door():
     GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
     GPIO.setup(14, GPIO.OUT)  # Setup GPIO OUT for door relay.
     GPIO.output(14, GPIO.LOW)  # Turn on Relay. (Open the door)
-    time.sleep(1)
-    send_email()
-    GPIO.cleanup()
+    time.sleep(1) #Relay Timeout
+    send_email()  #Send Email
+    GPIO.cleanup() #Clean the GPIO and reset them for the next cycle
 
 def listen_socket(pulse,timet):
     try:
@@ -140,7 +140,7 @@ def listen_socket(pulse,timet):
             actualPULSE = 0
             GPIO.setwarnings(False)  # Ignore warning for now
             GPIO.setmode(GPIO.BCM)  # Use physical pin numbering
-            GPIO.setup(18, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+            GPIO.setup(18, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)  # Set pin 18 to be an input pin and set initial value to be pulled low (off)
             GPIO.add_event_detect(18, GPIO.RISING)  # First push
             while True:
                 if GPIO.event_detected(18):
@@ -149,7 +149,7 @@ def listen_socket(pulse,timet):
     except Exception as e:
         statusERR(e)
 
-def send_email():
+def send_email(): #send email function
 
 ##CONFIG PART
     hostname = "smtp.sendgrid.com"
@@ -163,10 +163,10 @@ def send_email():
     message="A new guest has been checked-in now! "+ str(datetime.now())
 
 ##SENDING MAIL
-    mail = smtplib.SMTP(host=hostname, port=port)
+    mail = smtplib.SMTP(host=hostname, port=port) #prepare smtp connection
     mail.starttls()
     mail.login(username,password)
-    msg = MIMEMultipart()  # create a message
+    msg = MIMEMultipart()  # Prepare message
     msg['From'] = "ADConsulting Domotic services "+from_address
     msg['To'] = owner_address
     msg['Subject'] = "A new guest has done correctly the check-in procedure!"

@@ -30,6 +30,9 @@ We have implemented a cloud Remote Access OpenVPN Server (with a static IP ADDRE
 We alse implemanted a routing table in order to permit each other to communicate.
 Thanks to this, our remote connection is now crypthographated and authenticated and we can manage the RPI in a totally secure way.
 
+-Systemctl (optional)
+In order to execute this program as a service we have been implemented a systemctl init script.
+You can find it in unix/tools dir bbserver.service. You can customize the launch variable in order to start on the same host and port on every reboot.
 
 DESCRIPTION:
 

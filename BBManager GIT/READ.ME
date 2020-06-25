@@ -1,10 +1,10 @@
 #######
-#@2020 Accetturi Davide - Caterina Gambetti
-#This softwer is released under GPL license without any guarantee. The code is OpenSource
+#Copyright Accetturi Davide - Caterina Gambetti
+#This software is released under GPL license without any guarantee. The code is OpenSource
 #BB Manager Program - This program contains all the functions to manage the server
 #######
 
-ELABORATO PER ESAME PROGRAMMAZIONE DI RETI - TRACCIA 2
+This project is part of our exam in network for ALMA MATER STUDIORUM BOLOGNA course INGEGNERIA E SCIENZE INFORMATICHE sez.Cesena - Track n.2
 Management of check in a Bed and Breakfast totally key-less using RaspberryPI,VPN and WebGUI.
 
 REQUIREMENTS
@@ -34,21 +34,19 @@ Thanks to this, our remote connection is now crypthographated and authenticated 
 DESCRIPTION:
 
 - Main
+functions implemented
+ -run the Web Server as a background process
+ -run the BB Server which is listening on local ports (only Linux OS)
+ -run the maintenance program from command line (CLI) for BB Server
 
-press 1 to run the Web Server as a background process
-press 2 to run the BB Server which is listening on local ports (both in Windows and Linux OS)
-press 3 to run the maintenance program from command line (CLI) for BB Server
-
-- functions implemented in CLI
-
-press 1 to turn off the BB Server
-press 2 to change the time out
-press 3 to read the logs about who entered and left the Bed and Breakfast
-press 0 to go back to main menu
+functions implemented in CLI
+ -turn off the BB Server
+ -change the time out
+ -read the logs about who entered and left the Bed and Breakfast
 
 - set of .py files containing functions are located in assist
 
- -web.py
+ -web.py (must be run with host and port as argument otherwise it will not start!)
 
 Thanks to Flask, the Web Server executes python code including it in html page:
 When a button is pressed, Flask calls functions from main.py with the data required.
@@ -63,6 +61,6 @@ The VIEW LOGS button
 CLI manipulates files form command line
 differing from the Web Server which execute api to do that.
 
-
-Use as your
+#########################################################################################
+Enjoy your use and help us to improve new useful functionality!
 

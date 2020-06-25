@@ -1,6 +1,6 @@
 #######
-#@2020 Accetturi Davide - Caterina Gambetti
-#This softwer is released under GPL license without any guarantee. The code is OpenSource
+#Copyright Accetturi Davide - Caterina Gambetti
+#This software is released under GPL license without any guarantee. The code is OpenSource
 #BB Manager Program - This program contains all the functions to manage the server
 #######
 
